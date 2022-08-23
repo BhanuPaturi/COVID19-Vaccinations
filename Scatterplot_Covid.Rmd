@@ -1,0 +1,65 @@
+---
+title: "Interactive plot"
+author: "Bhanu"
+date: "19/10/2021"
+output: html_document
+---
+
+```{r}
+setwd("C:/Users/Paturi/DATA422Lab/Project")
+```
+
+
+```{r setup}
+library(knitr)
+library(kableExtra)
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(crosstalk)
+library(ggthemes)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+```{r}
+cases_df <- read_csv("Covid_Data_New.csv")
+```
+
+
+```{r}
+final_data <- cases_df %>% 
+  select(country_name, stringency, total_vaccinations_per100, region) %>% 
+  na.omit() %>% 
+  mutate(region = stringr::str_replace(region, "&", "and")) %>% 
+  SharedData$new() #SharedData$new() from outlook creates a new object - finaldata
+p <- final_data %>% 
+  plot_ly(x = ~stringency, y = ~total_vaccinations_per100, color = ~region,
+              hoverinfo = "text",
+              colors = "Set1",
+              text = ~paste("Country:", country_name,
+                            "<br>Region:", region,
+                            "<br>stringency Index:", stringency,
+                            "<br>Total vaccinations per 100:", total_vaccinations_per100)) %>% 
+  group_by(region) %>% 
+  add_markers(size = 4) %>%
+  layout(title = "Vaccination rates - Stringency index",
+         xaxis = list(title = "Stringency Index"),
+         yaxis = list(title = "Total Vaccinations per 100"),
+         legend = list(font = list(size = 16)))
+# bscols() from outlook helps to combine selectors and list is used to arrange them in first column
+bscols(widths = c(3, 9),
+       list(
+            filter_checkbox(id = "region", label = "Region",
+                    sharedData = final_data, group = ~region),
+            filter_select(id = "country", label = "Country",
+                    sharedData = final_data, group = ~country_name),
+            filter_slider(id = "slider_si", label = "Stringency Index",
+                    sharedData = final_data, column = ~stringency),
+            filter_slider(id = "slider_tv", label = "Total vaccinations per 100",
+                    sharedData = final_data, column = ~total_vaccinations_per100)
+      ),
+p)
+```
+
