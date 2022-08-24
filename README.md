@@ -2,18 +2,24 @@
 R, Julia
 
 
-#Data Sourced from
+## Data Sourced from
+```
 https://www.cia.gov/the-world-factbook/
 https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily
 https://covid19.who.int/WHO-COVID-19-global-table-data.csv 
 https://covid19.who.int/who-data/vaccination-data.csv 
 https://covidtrackerapi.bsg.ox.ac.uk/api/v2/stringency/date-range/{YYYY-MM-DD}/{YYYY-MM-DD}
 https://www.oecd.org/about/members-and-partners/
+```
 
+#### Population variables and GDP
 
-#Population variables and GDP
 "country" This is the country's name.
+
+
 "urbanisation_rate" This is the urbanisation rate, which is the percentage of the population that lives in urban areas.
+
+
 "urbanisation_yearly_change" This is the average rate that the urbanisation rate has been changing every year averaged over the last 20 years.
 "gdp_per_cap" This is the real GDP per capita rate, the real means this variable is based on purchasing power.
 "size" This is the size of the country in squared kilometres. 
